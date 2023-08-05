@@ -153,3 +153,5 @@ cython_debug/
 .history/
 helm/fritz-exporter/values-orbital.yaml
 donation.txt
+
+fritz-exporter.yml
