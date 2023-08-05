@@ -369,40 +369,40 @@ class WanDSLInterfaceConfigAVM(FritzCapability):
         yield self.metrics["crc"]
 
 
-class WanPPPConnectionStatus(FritzCapability):
-    def __init__(self) -> None:
-        super().__init__()
-        self.requirements.append(("WANPPPConnection1", "GetStatusInfo"))
+# class WanPPPConnectionStatus(FritzCapability):
+#     def __init__(self) -> None:
+#         super().__init__()
+#         self.requirements.append(("WANPPPConnection1", "GetStatusInfo"))
 
-    def createMetrics(self):
-        self.metrics["uptime"] = CounterMetricFamily(
-            "fritz_ppp_connection_uptime",
-            "PPP connection uptime",
-            labels=["serial", "friendly_name"],
-            unit="seconds",
-        )
-        self.metrics["connected"] = GaugeMetricFamily(
-            "fritz_ppp_connection_state",
-            "PPP connection state",
-            labels=["serial", "friendly_name", "last_error"],
-        )
+#     def createMetrics(self):
+#         self.metrics["uptime"] = CounterMetricFamily(
+#             "fritz_ppp_connection_uptime",
+#             "PPP connection uptime",
+#             labels=["serial", "friendly_name"],
+#             unit="seconds",
+#         )
+#         self.metrics["connected"] = GaugeMetricFamily(
+#             "fritz_ppp_connection_state",
+#             "PPP connection state",
+#             labels=["serial", "friendly_name", "last_error"],
+#         )
 
-    def _getMetricValues(self, device):
-        fritz_pppstatus_result = device.fc.call_action("WANPPPConnection1", "GetStatusInfo")
-        pppconnected = 1 if fritz_pppstatus_result["NewConnectionStatus"] == "Connected" else 0
-        self.metrics["uptime"].add_metric(
-            [device.serial, device.friendly_name], fritz_pppstatus_result["NewUptime"]
-        )
-        self.metrics["connected"].add_metric(
-            [
-                device.serial,
-                device.friendly_name,
-                fritz_pppstatus_result["NewLastConnectionError"],
-            ],
-            pppconnected,
-        )
-        yield self.metrics["uptime"]
-        yield self.metrics["connected"]
+#     def _getMetricValues(self, device):
+#         fritz_pppstatus_result = device.fc.call_action("WANPPPConnection1", "GetStatusInfo")
+#         pppconnected = 1 if fritz_pppstatus_result["NewConnectionStatus"] == "Connected" else 0
+#         self.metrics["uptime"].add_metric(
+#             [device.serial, device.friendly_name], fritz_pppstatus_result["NewUptime"]
+#         )
+#         self.metrics["connected"].add_metric(
+#             [
+#                 device.serial,
+#                 device.friendly_name,
+#                 fritz_pppstatus_result["NewLastConnectionError"],
+#             ],
+#             pppconnected,
+#         )
+#         yield self.metrics["uptime"]
+#         yield self.metrics["connected"]
 
 
 class WanCommonInterfaceConfig(FritzCapability):
