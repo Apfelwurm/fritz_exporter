@@ -9,9 +9,10 @@
             "type": "python",
             "request": "launch",
             "module": "fritzexporter",
+            "justMyCode": false,
             "args": [
                 "--config",
-                "../fritz-exporter.yml"
+                "fritz-exporter.yml"
             ],
         }
     ]
